@@ -208,4 +208,35 @@ export class SongController extends BaseDatabase {
             }
         }
     }
+
+    public deleteSong = async(req: Request, res: Response) => {
+        try {
+            const id = req.params.id;
+        
+            const songDatabase = new SongDatabase();
+            const songToDelete = await songDatabase.findSongById(id);
+        
+            if(!songToDelete) {
+              res.status(404)
+              throw new Error("Essa música não existe no banco de dados");
+            }
+        
+            await songDatabase.deleteSong(id)
+        
+            res.status(200).send(`Música de id '${id}' deletado com sucesso`)
+        
+        } catch (error) {
+            console.log(error);
+        
+            if (req.statusCode === 200) {
+                res.status(500);
+            }
+        
+            if (error instanceof Error) {
+                res.send(error.message);
+            } else {
+                res.send("Erro inesperado");
+            }
+        }
+    }
 }

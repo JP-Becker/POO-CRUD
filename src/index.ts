@@ -50,4 +50,4 @@ app.put("/songs/:id", songController.editSong)
 
 
 // deletar uma música da tabela por ID
-app.delete("/songs/:id", )
+app.delete("/songs/:id", songController.deleteSong)

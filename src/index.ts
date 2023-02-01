@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { BaseDatabase } from "./database/BaseDatabase";
+import { Song } from "./models/Song";
+import { SongController } from "./controller/SongController";
 
 
 const app = express();
@@ -33,3 +35,6 @@ app.get("/ping", async (req: Request, res: Response) => {
 });
 
 
+const songController = new SongController() // chamando a classe songController que contém as funções assíncronas dos enpoints
+// retorna a tabela de músicas (songs)
+app.get("/songs", songController.getSongs)

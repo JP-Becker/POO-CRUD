@@ -33,3 +33,5 @@ app.get("/ping", async (req: Request, res: Response) => {
 });
 
 
+// retornar todas as músicas da tabela 'songs'
+app.get("songs", )

@@ -4,24 +4,47 @@ import { BaseDatabase } from "../database/BaseDatabase";
 export class SongDatabase extends BaseDatabase {
     public static TABLE_SONGS = "songs"
 
-    public async finSongs() {
-        const songDB: SongDB[] = await BaseDatabase
-            .connection(SongDatabase.TABLE_SONGS)
+    public async findSongs (q: string | undefined) {
+        let songsDB
 
-        return songDB
+        if (q) {
+            const result: SongDB[] = await BaseDatabase
+                .connection(SongDatabase.TABLE_SONGS)
+                .where("title", "LIKE", `%${q}%`)
+            songsDB = result
+        } else {
+            const result: SongDB[] = await BaseDatabase
+                .connection(SongDatabase.TABLE_SONGS)
+            songsDB = result
+        }
+
+        return songsDB
     }
 
     public async findSongById(id: string) {
-        const [ songDB ]: SongDB[] | undefined[] = await BaseDatabase
+        const [ SongDB ]: SongDB[] | undefined[] = 
+        await BaseDatabase
             .connection(SongDatabase.TABLE_SONGS)
             .where({ id })
 
-        return songDB
+        return SongDB
     }
 
     public async insertSong(newSongDB: SongDB) {
         await BaseDatabase
             .connection(SongDatabase.TABLE_SONGS)
             .insert(newSongDB)
+    }
+
+    public async updateSong(editedSongDB: SongDB, id: string) {
+        await BaseDatabase.connection(SongDatabase.TABLE_SONGS)
+            .update(editedSongDB)
+            .where({ id })
+    }
+    
+    public async deleteSong(id: string) {
+        await BaseDatabase.connection(SongDatabase.TABLE_SONGS)
+            .del()
+            .where({ id })
     }
 }

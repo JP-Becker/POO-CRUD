@@ -1,6 +1,7 @@
-export type TVideosDB = {
+export interface SongDB {
     id: string,
-    title: string,
-    video_length: number,
-    uploaded_at: string
+    artist: string,
+    name: string,
+    uploaded_at: string,
+    total_views: number,
 }

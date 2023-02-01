@@ -1,18 +1,14 @@
--- Active: 1675099022431@@127.0.0.1@3306
-CREATE TABLE videos (
+-- Active: 1675287550902@@127.0.0.1@3306
+CREATE TABLE songs (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
-    title TEXT NOT NULL,
-    video_length REAL NOT NULL,
-    uploaded_at TEXT DEFAULT (DATETIME()) NOT NULL
+    artist TEXT NOT NULL,
+    name INTEGER NOT NULL,
+    uploaded_at TEXT DEFAULT (DATETIME()) NOT NULL,
+    total_views INTEGER NOT NULL
 );
 
-SELECT * FROM videos;
-
-DROP TABLE videos;
-
-INSERT INTO videos (id, title, video_length)
+INSERT INTO songs (id, artist, name, total_views)
 VALUES
-    ("v001", "video1", 100),
-    ("v002", "video2", 200),
-    ("v003", "video3", 300),
-    ("v004", "video4", 400);
+    ("s001", "Eminem", "Stan", 212383999),
+    ("s002", "Mac Miller", "Ladders", 10240000),
+    ("s003", "Cbjr", "Como tudo deve ser", 1200000);

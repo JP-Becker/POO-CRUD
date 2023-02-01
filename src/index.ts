@@ -38,3 +38,7 @@ app.get("/ping", async (req: Request, res: Response) => {
 const songController = new SongController() // chamando a classe songController que contém as funções assíncronas dos enpoints
 // retorna a tabela de músicas (songs)
 app.get("/songs", songController.getSongs)
+
+
+// endpoint para criar uma música
+app.post("/songs", songController.createSong)

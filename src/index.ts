@@ -42,3 +42,12 @@ app.get("/songs", songController.getSongs)
 
 // endpoint para criar uma música
 app.post("/songs", songController.createSong)
+
+
+// editar uma música buscada por ID
+// apenas "artist", "name" e "total_views" são obrigatórios no body
+app.put("/songs/:id", songController.editSong)
+
+
+// deletar uma música da tabela por ID
+app.delete("/songs/:id", )

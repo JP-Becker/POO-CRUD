@@ -85,4 +85,82 @@ export class SongBusiness {
 
         return output
     }
+
+    public editSong = async (input: any) => {
+
+        const { newArtist, newName, newTotalViews, newId, paramsId } = input
+
+        const songDatabase = new SongDatabase()
+        const songDBExists = await songDatabase.findSongById(paramsId)
+
+        if (!songDBExists) {
+        throw new Error("Esse vídeo não existe");
+        } else if (songDBExists) {
+            if (typeof newArtist !== "string" && typeof newArtist !== undefined) {
+                throw new Error("Tipo de artist inválido");
+            }
+            if (newArtist.length < 2) {
+                throw new Error("'artist' deve ter pelo menos 2 caracteres");
+            }
+
+            if (typeof newName !== "string" && typeof newName !== undefined) {
+                throw new Error("Tipo de name inválido");
+            }
+            if (newName.length < 2) {
+                throw new Error("'Name' deve ter pelo menos 2 caracteres");
+            }
+
+            if (
+                typeof newTotalViews !== "number" &&
+                typeof newTotalViews !== undefined
+            ) {
+                throw new Error("Tipo de totalViews inválido");
+            }
+            if (newTotalViews < 1) {
+                throw new Error("O número de views não pode ser menor do que 1");
+            }
+
+        const editedSong = new Song(
+            newId,
+            newArtist,
+            newName,
+            new Date().toISOString(),
+            newTotalViews
+        );
+
+        const editedSongDB: SongDB = {
+            id: editedSong.getId() || songDBExists.id,
+            artist: editedSong.getArtist() || songDBExists.artist,
+            name: editedSong.getName() || songDBExists.name,
+            uploaded_at: editedSong.getUploadedAt() || songDBExists.uploaded_at,
+            total_views: editedSong.getTotalViews() || songDBExists.total_views
+        };
+
+        await songDatabase.updateSong(editedSongDB, paramsId)
+
+        const output = {
+            message: "Música editada com sucesso!",
+            Música: editedSongDB,
+        }
+
+        return output
+    }
+}
+
+    public deleteSong = async (input: any) => {
+
+        
+        const songDatabase = new SongDatabase();
+        const songToDelete = await songDatabase.findSongById(input);
+    
+        if(!songToDelete) {
+            throw new Error("Essa música não existe no banco de dados");
+        }
+    
+        await songDatabase.deleteSong(input)
+
+        const output = `Música de id '${input}' deletada com sucesso`
+
+        return output
+    }
 }

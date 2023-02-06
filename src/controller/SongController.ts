@@ -65,73 +65,19 @@ export class SongController extends BaseDatabase {
 
     public editSong = async(req: Request, res: Response) => {
         try {
-            const paramsId = req.params.id;
 
-            const newId = req.body.id;
-            const newArtist = req.body.artist;
-            const newName = req.body.name;
-            const newTotalViews = req.body.total_views;
-
-            const songDatabase = new SongDatabase()
-            const songDBExists = await songDatabase.findSongById(paramsId)
-
-            if (!songDBExists) {
-            res.status(400);
-            throw new Error("Esse vídeo não existe");
-            } else if (songDBExists) {
-                if (typeof newArtist !== "string" && typeof newArtist !== undefined) {
-                    res.status(400);
-                    throw new Error("Tipo de artist inválido");
-                }
-                if (newArtist.length < 2) {
-                    res.status(400);
-                    throw new Error("'artist' deve ter pelo menos 2 caracteres");
-                }
-
-                if (typeof newName !== "string" && typeof newName !== undefined) {
-                    res.status(400);
-                    throw new Error("Tipo de name inválido");
-                }
-                if (newName.length < 2) {
-                    res.status(400);
-                    throw new Error("'Name' deve ter pelo menos 2 caracteres");
-                }
-
-                if (
-                    typeof newTotalViews !== "number" &&
-                    typeof newTotalViews !== undefined
-                ) {
-                    res.status(400);
-                    throw new Error("Tipo de totalViews inválido");
-                }
-                if (newTotalViews < 1) {
-                    res.status(400);
-                    throw new Error("O número de views não pode ser menor do que 1");
-                }
-
-            const editedSong = new Song(
-                newId,
-                newArtist,
-                newName,
-                new Date().toISOString(),
-                newTotalViews
-            );
-
-            const editedSongDB: SongDB = {
-                id: editedSong.getId() || songDBExists.id,
-                artist: editedSong.getArtist() || songDBExists.artist,
-                name: editedSong.getName() || songDBExists.name,
-                uploaded_at: editedSong.getUploadedAt() || songDBExists.uploaded_at,
-                total_views: editedSong.getTotalViews() || songDBExists.total_views
-            };
-
-            await songDatabase.updateSong(editedSongDB, paramsId)
-
-            res.status(200).send({
-                message: "Música editada com sucesso!",
-                Música: editedSongDB,
-            });
+            const input = {
+                newId: req.body.id,
+                newArtist: req.body.artist,
+                newName: req.body.name,
+                newTotalViews: req.body.total_views,
+                paramsId: req.params.id
             }
+
+            const songBusiness = new SongBusiness()
+            const output = await songBusiness.editSong(input)
+
+            res.status(200).send(output);
         } catch (error) {
             console.log(error)
     
@@ -151,17 +97,10 @@ export class SongController extends BaseDatabase {
         try {
             const id = req.params.id;
         
-            const songDatabase = new SongDatabase();
-            const songToDelete = await songDatabase.findSongById(id);
+            const songBusiness = new SongBusiness()
+            const output = await songBusiness.deleteSong(id)
         
-            if(!songToDelete) {
-              res.status(404)
-              throw new Error("Essa música não existe no banco de dados");
-            }
-        
-            await songDatabase.deleteSong(id)
-        
-            res.status(200).send(`Música de id '${id}' deletado com sucesso`)
+            res.status(200).send(output)
         
         } catch (error) {
             console.log(error);

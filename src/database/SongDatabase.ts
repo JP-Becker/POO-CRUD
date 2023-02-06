@@ -10,7 +10,7 @@ export class SongDatabase extends BaseDatabase {
         if (q) {
             const result: SongDB[] = await BaseDatabase
                 .connection(SongDatabase.TABLE_SONGS)
-                .where("title", "LIKE", `%${q}%`)
+                .where("name", "LIKE", `%${q}%`)
             songsDB = result
         } else {
             const result: SongDB[] = await BaseDatabase

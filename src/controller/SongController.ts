@@ -10,19 +10,13 @@ export class SongController extends BaseDatabase {
     public getSongs = async(req: Request, res: Response) =>{
 
         try {
+
             const q = req.query.q as string | undefined
-    
-            const songDatabase = new SongDatabase()
-            const SongDB = await songDatabase.findSongs(q)
-    
-            const songs: Song[] = SongDB.map((SongDB) => new Song(
-                SongDB.id,
-                SongDB.artist,
-                SongDB.name,
-                SongDB.uploaded_at,
-                SongDB.total_views
-            ))
-            res.status(200).send({"Lista de todas as músicas ": songs}) 
+
+            const songBusiness = new SongBusiness()
+            const output = await songBusiness.getSongs(q)
+            
+            res.status(200).send(output) 
         } catch (error) {
             console.log(error)
     

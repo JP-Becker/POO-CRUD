@@ -68,4 +68,21 @@ export class SongBusiness {
 
         return output;
     }
+
+    public getSongs = async (input: any) => {
+        const songDatabase = new SongDatabase()
+        const SongDB = await songDatabase.findSongs(input)
+
+        const songs: Song[] = SongDB.map((SongDB) => new Song(
+            SongDB.id,
+            SongDB.artist,
+            SongDB.name,
+            SongDB.uploaded_at,
+            SongDB.total_views
+        ))
+
+        const output = {"Lista de todas as músicas ": songs}
+
+        return output
+    }
 }

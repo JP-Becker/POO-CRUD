@@ -3,6 +3,7 @@ import { BaseDatabase } from "../database/BaseDatabase";
 import { Request, Response } from "express"
 import { SongDatabase } from "../database/SongDatabase";
 import { Song } from "../models/Song";
+import { SongBusiness } from "../business/SongBusiness";
 
 export class SongController extends BaseDatabase {
 
@@ -39,76 +40,19 @@ export class SongController extends BaseDatabase {
 
     public createSong = async(req: Request, res: Response) => {
         try {
-            const { id, artist, name, uploaded_at, total_views} = req.body
 
-            if (typeof id !== "string") {
-                res.status(400);
-                throw new Error("'id' deve ser string");
-            } 
-            if (id[0] !== "s") {
-                res.status(400);
-                throw new Error("'id' deve começar com a letra 's'");
-            }
-          
-            if (typeof artist !== "string") {
-                res.status(400);
-                throw new Error("'artist' deve ser string");
-            }
-            if (artist.length < 2) {
-                res.status(400);
-                throw new Error("'artist' deve ter pelo menos 2 caracteres");
-            }
-        
-            if (typeof name !== "string") {
-                res.status(400);
-                throw new Error("'name' deve ser string");
-            }
-            if (name.length < 2) {
-                res.status(400);
-                throw new Error("'name' deve ter pelo menos 2 caracteres");
-            }
-        
-            if (typeof uploaded_at !== "string") {
-                res.status(400);
-                throw new Error("'uploaded_at' deve ser string");
+            const input = {
+                id: req.body.id, 
+                artist: req.body.artist, 
+                name: req.body.name, 
+                uploaded_at: req.body.uploaded_at, 
+                total_views: req.body.total_views
             }
 
-            if (typeof total_views !== "number") {
-                res.status(400);
-                throw new Error("'total_views' deve ser number");
-            }
-
+            const songBusiness = new SongBusiness()
+            const output = await songBusiness.createSong(input)
             
-            const songDatabase = new SongDatabase()
-            const songDBExists = await songDatabase.findSongById(id)
-
-            if (songDBExists) {
-            res.status(400);
-            throw new Error("'id' já existe");
-            }
-
-            const newSong = new Song(
-                id,
-                artist, 
-                name, 
-                new Date().toISOString(), 
-                total_views
-            );
-
-            const newSongDB: SongDB = {
-                id: newSong.getId(),
-                artist: newSong.getArtist(),
-                name: newSong.getName(),
-                uploaded_at: newSong.getUploadedAt(),
-                total_views: newSong.getTotalViews()
-            };
-
-            await songDatabase.insertSong(newSongDB)
-
-            res.status(200).send({
-            message: "Vídeo criado com sucesso",
-            video: newSong,
-            });
+            res.status(200).send(output);
 
         } catch (error) {
             console.log(error)

@@ -73,88 +73,20 @@ export class CourseController extends BaseDatabase {
         }
     }
 
-    // public createSong = async(req: Request, res: Response) => {
-    //     try {
+    public deleteCourse = async (req: Request, res: Response) => {
+        try {
+            const input = req.params.id
 
-    //         const input = {
-    //             id: req.body.id, 
-    //             artist: req.body.artist, 
-    //             name: req.body.name, 
-    //             uploaded_at: req.body.uploaded_at, 
-    //             total_views: req.body.total_views
-    //         }
+            const courseBusiness = new CourseBusiness()
+            const output = await courseBusiness.deleteCourse(input)
 
-    //         const songBusiness = new SongBusiness()
-    //         const output = await songBusiness.createSong(input)
-            
-    //         res.status(200).send(output);
-
-    //     } catch (error) {
-    //         console.log(error)
+            res.status(201).send(output);
+        } catch (error) {
+            console.log(error)
     
-    //         if (req.statusCode === 200) {
-    //             res.status(500)
-    //         }
-    
-    //         if (error instanceof Error) {
-    //             res.send(error.message)
-    //         } else {
-    //             res.send("Erro inesperado")
-    //         }
-    //     }
-    //     }
-
-    // public editSong = async(req: Request, res: Response) => {
-    //     try {
-
-    //         const input = {
-    //             newId: req.body.id,
-    //             newArtist: req.body.artist,
-    //             newName: req.body.name,
-    //             newTotalViews: req.body.total_views,
-    //             paramsId: req.params.id
-    //         }
-
-    //         const songBusiness = new SongBusiness()
-    //         const output = await songBusiness.editSong(input)
-
-    //         res.status(200).send(output);
-    //     } catch (error) {
-    //         console.log(error)
-    
-    //         if (req.statusCode === 200) {
-    //             res.status(500)
-    //         }
-    
-    //         if (error instanceof Error) {
-    //             res.send(error.message)
-    //         } else {
-    //             res.send("Erro inesperado")
-    //         }
-    //     }
-    // }
-
-    // public deleteSong = async(req: Request, res: Response) => {
-    //     try {
-    //         const id = req.params.id;
-        
-    //         const songBusiness = new SongBusiness()
-    //         const output = await songBusiness.deleteSong(id)
-        
-    //         res.status(200).send(output)
-        
-    //     } catch (error) {
-    //         console.log(error);
-        
-    //         if (req.statusCode === 200) {
-    //             res.status(500);
-    //         }
-        
-    //         if (error instanceof Error) {
-    //             res.send(error.message);
-    //         } else {
-    //             res.send("Erro inesperado");
-    //         }
-    //     }
-    // }
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } 
+        }
+    }
 }

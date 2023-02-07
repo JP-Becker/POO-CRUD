@@ -132,4 +132,21 @@ export class CourseBusiness {
 
         return output;
     }
+
+    public deleteCourse = async (input: any) => {
+
+        const courseDatabase = new CourseDatabase()
+        const courseToDelete = await courseDatabase.findCourseById(input)
+
+        if (!courseToDelete) {
+            throw new NotFoundError("Esse curso não existe");
+        }
+
+        await courseDatabase.deleteCourse(input)
+
+        const output = `Música de id '${input}' deletada com sucesso`
+
+        return output
+
+    }
 }

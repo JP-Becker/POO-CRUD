@@ -1,9 +1,7 @@
-import { SongDB } from "../types";
 import { BaseDatabase } from "../database/BaseDatabase";
 import { Request, Response } from "express"
-import { SongDatabase } from "../database/SongDatabase";
-import { Song } from "../models/Song";
 import { SongBusiness } from "../business/SongBusiness";
+import { BaseError } from "../errors/BaseError";
 
 export class SongController extends BaseDatabase {
 
@@ -20,14 +18,10 @@ export class SongController extends BaseDatabase {
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
         }
@@ -51,14 +45,10 @@ export class SongController extends BaseDatabase {
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
         }
@@ -81,14 +71,10 @@ export class SongController extends BaseDatabase {
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado")
+                res.status(500).send("Erro inesperado")
             }
         }
     }
@@ -103,16 +89,12 @@ export class SongController extends BaseDatabase {
             res.status(200).send(output)
         
         } catch (error) {
-            console.log(error);
-        
-            if (req.statusCode === 200) {
-                res.status(500);
-            }
-        
-            if (error instanceof Error) {
-                res.send(error.message);
+            console.log(error)
+    
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
-                res.send("Erro inesperado");
+                res.status(500).send("Erro inesperado")
             }
         }
     }

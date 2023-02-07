@@ -9,5 +9,5 @@ export interface SongDB {
 export interface CourseDB {
     id: string,
     name: string,
-    lessons: string
+    lessons: number
 }

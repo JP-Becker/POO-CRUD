@@ -1,38 +1,40 @@
 import { SongDatabase } from "../database/SongDatabase";
 import { Song } from "../models/Song";
 import { SongDB } from "../types";
+import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
 
 export class SongBusiness {
     public createSong = async (input: any) => {
         const { id, artist, name, uploaded_at, total_views } = input
 
         if (typeof id !== "string") {
-            throw new Error("'id' deve ser string");
+            throw new BadRequestError("'id' deve ser string");
         } 
         if (id[0] !== "s") {
-            throw new Error("'id' deve começar com a letra 's'");
+            throw new BadRequestError("'id' deve começar com a letra 's'");
         }
       
         if (typeof artist !== "string") {
-            throw new Error("'artist' deve ser string");
+            throw new BadRequestError("'artist' deve ser string");
         }
         if (artist.length < 2) {
-            throw new Error("'artist' deve ter pelo menos 2 caracteres");
+            throw new BadRequestError("'artist' deve ter pelo menos 2 caracteres");
         }
     
         if (typeof name !== "string") {
-            throw new Error("'name' deve ser string");
+            throw new BadRequestError("'name' deve ser string");
         }
         if (name.length < 2) {
-            throw new Error("'name' deve ter pelo menos 2 caracteres");
+            throw new BadRequestError("'name' deve ter pelo menos 2 caracteres");
         }
     
         if (typeof uploaded_at !== "string") {
-            throw new Error("'uploaded_at' deve ser string");
+            throw new BadRequestError("'uploaded_at' deve ser string");
         }
 
         if (typeof total_views !== "number") {
-            throw new Error("'total_views' deve ser number");
+            throw new BadRequestError("'total_views' deve ser number");
         }
 
         
@@ -40,7 +42,7 @@ export class SongBusiness {
         const songDBExists = await songDatabase.findSongById(id)
 
         if (songDBExists) {
-        throw new Error("'id' já existe");
+        throw new BadRequestError("'id' já existe");
         }
 
         const newSong = new Song(
@@ -94,30 +96,30 @@ export class SongBusiness {
         const songDBExists = await songDatabase.findSongById(paramsId)
 
         if (!songDBExists) {
-        throw new Error("Esse vídeo não existe");
+        throw new NotFoundError("Esse vídeo não existe");
         } else if (songDBExists) {
             if (typeof newArtist !== "string" && typeof newArtist !== undefined) {
-                throw new Error("Tipo de artist inválido");
+                throw new BadRequestError("Tipo de artist inválido");
             }
             if (newArtist.length < 2) {
-                throw new Error("'artist' deve ter pelo menos 2 caracteres");
+                throw new BadRequestError("'artist' deve ter pelo menos 2 caracteres");
             }
 
             if (typeof newName !== "string" && typeof newName !== undefined) {
-                throw new Error("Tipo de name inválido");
+                throw new BadRequestError("Tipo de name inválido");
             }
             if (newName.length < 2) {
-                throw new Error("'Name' deve ter pelo menos 2 caracteres");
+                throw new BadRequestError("'Name' deve ter pelo menos 2 caracteres");
             }
 
             if (
                 typeof newTotalViews !== "number" &&
                 typeof newTotalViews !== undefined
             ) {
-                throw new Error("Tipo de totalViews inválido");
+                throw new BadRequestError("Tipo de totalViews inválido");
             }
             if (newTotalViews < 1) {
-                throw new Error("O número de views não pode ser menor do que 1");
+                throw new BadRequestError("O número de views não pode ser menor do que 1");
             }
 
         const editedSong = new Song(
@@ -154,7 +156,7 @@ export class SongBusiness {
         const songToDelete = await songDatabase.findSongById(input);
     
         if(!songToDelete) {
-            throw new Error("Essa música não existe no banco de dados");
+            throw new NotFoundError("Essa música não existe no banco de dados");
         }
     
         await songDatabase.deleteSong(input)

@@ -2,7 +2,7 @@ export class Course {
     constructor (
         private id: string,
         private name: string,
-        private lessons: string
+        private lessons: number
     ) {}
 
     public getId(): string {
@@ -19,10 +19,10 @@ export class Course {
         this.name = value
     }
 
-    public getLessons(): string {
+    public getLessons(): number {
         return this.lessons
     }
-    public setLessons(value: string) {
+    public setLessons(value: number) {
         this.lessons = value
     }
 }

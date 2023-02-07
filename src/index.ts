@@ -46,4 +46,4 @@ app.listen(3003, () => {
 
 const songController = new SongController() // instanciando a classe songController que contém as funções assíncronas dos enpoints
 
-app.use("/songs", songRouter)
+app.use("/songs", songRouter) // os métodos CRUD agora estão todos concentrados no songRouter

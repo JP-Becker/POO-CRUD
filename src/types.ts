@@ -4,4 +4,10 @@ export interface SongDB {
     name: string,
     uploaded_at: string,
     total_views: number,
+};
+
+export interface CourseDB {
+    id: string,
+    name: string,
+    lessons: number
 }

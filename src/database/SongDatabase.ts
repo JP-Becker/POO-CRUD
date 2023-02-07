@@ -1,6 +1,9 @@
 import { SongDB } from "../types"; 
 import { BaseDatabase } from "./BaseDatabase";
 
+
+
+// classe de database para os métodos da tabela songs
 export class SongDatabase extends BaseDatabase {
     public static TABLE_SONGS = "songs"
 

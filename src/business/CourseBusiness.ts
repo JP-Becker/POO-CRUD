@@ -73,4 +73,63 @@ export class CourseBusiness {
 
         return output;
     }
+
+    public editCourse = async (input: any) => {
+        const { newId, newName, newLessons, id } = input
+
+        const courseDatabase = new CourseDatabase()
+        const courseDBExists = await courseDatabase.findCourseById(id)
+
+        if (!courseDBExists) {
+            throw new NotFoundError("Esse curso não existe");
+        }
+
+        if (newId !== undefined) {
+            if (typeof newId !== "string") {
+                throw new BadRequestError("'id' deve ser do tipo string");
+            }
+            if (newId[0] !== "c") {
+                throw new BadRequestError("'id' deve começar com a letra 'c'");
+            }
+        }
+
+        if (newName !== undefined) {
+            if (typeof newName !== "string") {
+                throw new BadRequestError("'Name' deve ser do tipo string");
+            }
+            if (newName.length < 3) {
+                throw new BadRequestError("'name' deve ter pelo menos 3 caracteres");
+            }
+        }
+
+        if (newLessons !== undefined) {
+            if(typeof newLessons !== "number") {
+                throw new BadRequestError("'lessons' deve ser um número");
+            }
+            if(newLessons < 0) {
+                throw new BadRequestError("'lessons' não pode ser menor que 0");
+            }
+        }
+
+        const editedCourse = new Course (
+            newId,
+            newName,
+            newLessons
+        )
+
+        const editedCourseDB: CourseDB = {
+            id: editedCourse.getId() || courseDBExists.id,
+            name: editedCourse.getName() || courseDBExists.name,
+            lessons: editedCourse.getLessons() || courseDBExists.lessons
+        }
+
+        await courseDatabase.updateCourse(editedCourseDB, id)
+
+        const output = {
+            message: "Curso editado",
+            Curso: editedCourseDB
+        };
+
+        return output;
+    }
 }

@@ -46,10 +46,8 @@ app.listen(3003, () => {
 // // deletar uma música da tabela por ID
 // app.delete("/songs/:id", songController.deleteSong)
 
-const songController = new SongController() // instanciando a classe songController que contém as funções assíncronas dos enpoints
-
+//const songController = new SongController() // instanciando a classe songController que contém as funções assíncronas dos enpoints
 app.use("/songs", songRouter) // os métodos CRUD agora estão todos concentrados no songRouter
 
 const courseController = new CourseController() // instanciando a classe courseController que contém as funções assíncronas dos enpoints
-
 app.use("/courses", courseRouter) // os métodos CRUD de courses estão concentrados no courseRouter

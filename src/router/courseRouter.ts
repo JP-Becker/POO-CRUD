@@ -7,3 +7,4 @@ const courseController = new CourseController()
 
 courseRouter.get("/", courseController.getCourses)
 courseRouter.post("/", courseController.createCourse)
+courseRouter.put("/:id", courseController.editCourse)

@@ -5,6 +5,26 @@ import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 
 export class SongBusiness {
+
+    // CLASSE PARA CONTROLE DOS ENPOINTS DE CRUD DA TABELA SONGS
+
+    public getSongs = async (input: any) => {
+        const songDatabase = new SongDatabase()
+        const SongDB = await songDatabase.findSongs(input)
+
+        const songs: Song[] = SongDB.map((SongDB) => new Song(
+            SongDB.id,
+            SongDB.artist,
+            SongDB.name,
+            SongDB.uploaded_at,
+            SongDB.total_views
+        ))
+
+        const output = {"Lista de todas as músicas ": songs}
+
+        return output
+        }
+
     public createSong = async (input: any) => {
         const { id, artist, name, uploaded_at, total_views } = input
 
@@ -69,24 +89,7 @@ export class SongBusiness {
             }
 
         return output;
-    }
-
-    public getSongs = async (input: any) => {
-        const songDatabase = new SongDatabase()
-        const SongDB = await songDatabase.findSongs(input)
-
-        const songs: Song[] = SongDB.map((SongDB) => new Song(
-            SongDB.id,
-            SongDB.artist,
-            SongDB.name,
-            SongDB.uploaded_at,
-            SongDB.total_views
-        ))
-
-        const output = {"Lista de todas as músicas ": songs}
-
-        return output
-    }
+        }
 
     public editSong = async (input: any) => {
 
@@ -147,7 +150,7 @@ export class SongBusiness {
 
         return output
     }
-}
+        }
 
     public deleteSong = async (input: any) => {
 
@@ -164,5 +167,5 @@ export class SongBusiness {
         const output = `Música de id '${input}' deletada com sucesso`
 
         return output
-    }
+        }
 }

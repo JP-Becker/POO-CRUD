@@ -1,6 +1,9 @@
 import { CourseDB } from "../types"; 
 import { BaseDatabase } from "./BaseDatabase";
 
+
+
+// classe de database para os métodos da tabela courses
 export class CourseDatabase extends BaseDatabase {
     public static TABLE_COURSES = "courses"
 

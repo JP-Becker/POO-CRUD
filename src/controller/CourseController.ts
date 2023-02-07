@@ -5,6 +5,8 @@ import { BaseError } from "../errors/BaseError";
 
 export class CourseController extends BaseDatabase {
 
+    // CLASSE PARA CONTROLE DOS ENPOINTS DE CRUD DA TABELA COURSES
+
     public getCourses = async(req: Request, res: Response) =>{
 
         try {
@@ -49,7 +51,7 @@ export class CourseController extends BaseDatabase {
             }
         }
         
-    }    
+        }    
 
     public editCourse = async (req: Request, res: Response) => {
         try {
@@ -71,7 +73,7 @@ export class CourseController extends BaseDatabase {
                 res.status(error.statusCode).send(error.message)
             } 
         }
-    }
+        }
 
     public deleteCourse = async (req: Request, res: Response) => {
         try {
@@ -88,5 +90,5 @@ export class CourseController extends BaseDatabase {
                 res.status(error.statusCode).send(error.message)
             } 
         }
-    }
+        }
 }

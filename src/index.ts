@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import { SongController } from "./controller/SongController";
 import { songRouter } from "./router/songRouter";
+import { CourseController } from "./controller/CourseController";
+import { courseRouter } from "./router/courseRouter";
 
 
 const app = express();
@@ -47,3 +49,7 @@ app.listen(3003, () => {
 const songController = new SongController() // instanciando a classe songController que contém as funções assíncronas dos enpoints
 
 app.use("/songs", songRouter) // os métodos CRUD agora estão todos concentrados no songRouter
+
+const courseController = new CourseController() // instanciando a classe courseController que contém as funções assíncronas dos enpoints
+
+app.use("/courses", courseRouter) // os métodos CRUD de courses estão concentrados no courseRouter
